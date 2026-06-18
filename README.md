@@ -1,6 +1,6 @@
 # Rasht
 
-**Rain City API tracing for Flutter.**
+**Rasht Rain City API tracing for Flutter.**
 
 Rasht is named after Rasht, Iran — the Rain City. It gives you an in-app floating umbrella button that captures Dio REST requests in debug builds, with one-tap cURL and Postman collection export.
 
