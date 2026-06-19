@@ -5,8 +5,24 @@ import 'package:rasht/src/rasht_config.dart';
 import 'package:rasht/src/rasht_log_entry.dart';
 import 'package:rasht/src/rasht_store.dart';
 
-/// Floating Rain City API trace overlay.
+/// Draggable umbrella FAB and panel for inspecting captured API requests.
+///
+/// Wrap your app content in [MaterialApp.builder]:
+///
+/// ```dart
+/// MaterialApp(
+///   builder: (context, child) {
+///     return RashtOverlay(child: child ?? const SizedBox.shrink());
+///   },
+/// );
+/// ```
+///
+/// Hidden when [enabled] (or [Rasht.enabled]) is false.
 class RashtOverlay extends StatefulWidget {
+  /// Creates the overlay around [child].
+  ///
+  /// Pass [store] to use a custom [RashtStore], or omit for [RashtStore.instance].
+  /// When [enabled] is null, [Rasht.enabled] is used.
   const RashtOverlay({
     super.key,
     required this.child,
@@ -14,10 +30,13 @@ class RashtOverlay extends StatefulWidget {
     this.enabled,
   });
 
+  /// App content rendered beneath the Rasht FAB and panel.
   final Widget child;
+
+  /// Log store to display. Defaults to [RashtStore.instance].
   final RashtStore? store;
 
-  /// When null, uses [Rasht.enabled].
+  /// Overrides [Rasht.enabled] for this overlay only.
   final bool? enabled;
 
   @override

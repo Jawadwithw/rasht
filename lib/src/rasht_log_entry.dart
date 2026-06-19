@@ -2,23 +2,57 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-enum RashtLogStatus { pending, success, failure }
+/// Lifecycle status of a captured HTTP request.
+enum RashtLogStatus {
+  /// Request was sent and is awaiting a response.
+  pending,
 
+  /// Request completed with a response.
+  success,
+
+  /// Request failed or returned an error.
+  failure,
+}
+
+/// A single captured HTTP request and its response metadata.
 class RashtLogEntry {
+  /// Unique identifier linking request/response in the store.
   final String id;
+
+  /// When the request was initiated.
   final DateTime startedAt;
+
+  /// HTTP method (e.g. `GET`, `POST`).
   final String method;
+
+  /// Full request URL including query string.
   final String url;
+
+  /// Parsed query parameters, if any.
   final Map<String, dynamic>? queryParameters;
+
+  /// Request body (JSON map, string, [FormData], etc.).
   final dynamic requestBody;
+
+  /// Outgoing request headers.
   final Map<String, dynamic>? requestHeaders;
 
+  /// When the response or error was received.
   DateTime? finishedAt;
+
+  /// HTTP status code from the response, if available.
   int? statusCode;
+
+  /// Parsed response body.
   dynamic responseBody;
+
+  /// Error message when the request failed.
   String? errorMessage;
+
+  /// Current lifecycle status.
   RashtLogStatus status;
 
+  /// Creates a log entry for a captured request.
   RashtLogEntry({
     required this.id,
     required this.startedAt,
@@ -34,22 +68,28 @@ class RashtLogEntry {
     this.status = RashtLogStatus.pending,
   });
 
+  /// Elapsed time between [startedAt] and [finishedAt], or null if pending.
   Duration? get duration {
     if (finishedAt == null) return null;
     return finishedAt!.difference(startedAt);
   }
 
+  /// URI path segment for display (e.g. `/api/users`).
   String get pathLabel {
     final uri = Uri.tryParse(url);
     return uri?.path ?? url;
   }
 
+  /// Whether [status] is [RashtLogStatus.success].
   bool get isSuccess => status == RashtLogStatus.success;
 
+  /// Whether [status] is [RashtLogStatus.failure].
   bool get isFailure => status == RashtLogStatus.failure;
 
+  /// Whether [status] is [RashtLogStatus.pending].
   bool get isPending => status == RashtLogStatus.pending;
 
+  /// Returns a copy of this entry with the given fields replaced.
   RashtLogEntry copyWith({
     DateTime? finishedAt,
     int? statusCode,
@@ -73,6 +113,7 @@ class RashtLogEntry {
     );
   }
 
+  /// Converts a request body to a readable string for the detail panel.
   static String sanitizeBody(dynamic body) {
     if (body == null) return '';
     if (body is FormData) {
@@ -86,6 +127,7 @@ class RashtLogEntry {
     return body.toString();
   }
 
+  /// Formats a map as `key: value` lines for display.
   static String formatMap(dynamic value) {
     if (value == null) return '(empty)';
     if (value is Map) {
@@ -97,11 +139,13 @@ class RashtLogEntry {
     return value.toString();
   }
 
+  /// Formats a request body for the detail panel.
   static String formatBody(dynamic body) {
     final sanitized = sanitizeBody(body);
     return sanitized.isEmpty ? '(empty)' : sanitized;
   }
 
+  /// Postman-style cURL command for this request.
   String get toCurl => buildCurl(
         method: method,
         url: url,
@@ -109,11 +153,13 @@ class RashtLogEntry {
         requestBody: requestBody,
       );
 
+  /// Postman Collection v2.1 JSON containing this single request.
   String get toPostmanCollection => buildPostmanCollection(
         name: '$method $pathLabel',
         entries: [this],
       );
 
+  /// Builds a Postman Collection v2.1 JSON string from [entries].
   static String buildPostmanCollection({
     required String name,
     required List<RashtLogEntry> entries,
@@ -236,6 +282,7 @@ class RashtLogEntry {
     return {'mode': 'raw', 'raw': text};
   }
 
+  /// Builds a Postman-style cURL command for the given request.
   static String buildCurl({
     required String method,
     required String url,

@@ -3,12 +3,24 @@ import 'package:rasht/src/rasht_config.dart';
 import 'package:rasht/src/rasht_log_entry.dart';
 import 'package:rasht/src/rasht_store.dart';
 
+/// Dio [Interceptor] that records every HTTP request, response, and error
+/// into a [RashtStore].
+///
+/// Add to your [Dio] instance when [Rasht.enabled] is true:
+///
+/// ```dart
+/// dio.interceptors.add(RashtInterceptor(RashtStore.instance));
+/// ```
 class RashtInterceptor extends Interceptor {
+  /// Creates an interceptor that writes logs to [store].
+  ///
+  /// When [enabled] is null, [Rasht.enabled] is used.
   RashtInterceptor(this.store, {this.enabled});
 
+  /// Destination store for captured log entries.
   final RashtStore store;
 
-  /// When null, uses [Rasht.enabled].
+  /// Overrides [Rasht.enabled] for this interceptor only.
   final bool? enabled;
 
   static const _logIdKey = 'rasht_log_id';
