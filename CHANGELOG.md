@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Add `example/` app for pub.dev documentation score.
+
 ## 0.1.1
 
 * Add dartdoc coverage for pub.dev documentation score.
