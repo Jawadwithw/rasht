@@ -1,20 +1,34 @@
-## 0.1.4
+## 0.4.0
 
-* Fix CHANGELOG to include the current version for pub.dev scoring.
+* Open Rasht as a full-screen inspector instead of an overlay panel.
+* Export bottom sheet now opens above dialogs and modals.
+* Umbrella FAB only — tap to navigate to [RashtScreen].
 
-## 0.1.3
+## 0.3.2
 
-* Update Dio constraint to `^5.9.2`.
+* Fix app freeze when opening Rasht from `MaterialApp.builder`.
+* Render panel via navigator overlay with safe view insets.
+* Deduplicate rapid error captures to prevent rebuild loops.
 
-## 0.1.2
+## 0.3.1
 
-* Add `example/` app for pub.dev documentation score.
+* Fix `Localizations` lookup crash when overlay sits above the app subtree.
+* Add `Rasht.navigatorKey` and `appRunner` parameter rename in `Rasht.initialize`.
 
-## 0.1.1
+## 0.3.0
 
-* Add dartdoc coverage for pub.dev documentation score.
+* Session export: copy/share text, JSON, and HTML reports.
+* Auto-redact tokens, passwords, and sensitive headers before export.
+* Include app version, device, OS, and locale in every report.
+* Optional `Rasht.sessionExtras` for tester metadata.
+
+## 0.2.0
+
+* Capture Flutter, Dart, and zone errors with file and line.
+* Requests and Errors tabs in the inspector.
+* `Rasht.initialize()` for one-call error handler setup.
 
 ## 0.1.0
 
-* Initial release: Dio interceptor, overlay UI, cURL export, Postman collection export.
-* `Rasht.enabled` flag for release-mode tracing.
+* Dio interceptor with draggable umbrella FAB.
+* Request list, detail view, cURL and Postman export.

@@ -2,9 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rasht/rasht.dart';
 
+final _navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Rasht.enabled = true;
-  runApp(const RashtExampleApp());
+  Rasht.initialize(appRunner: () => runApp(const RashtExampleApp()));
 }
 
 class RashtExampleApp extends StatefulWidget {
@@ -28,15 +31,25 @@ class _RashtExampleAppState extends State<RashtExampleApp> {
     await _dio.get('https://jsonplaceholder.typicode.com/todos/1');
   }
 
+  void _triggerTestError() {
+    Future<void>.delayed(Duration.zero, () {
+      throw StateError('Rasht example: test async error');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rasht Example',
+      navigatorKey: _navigatorKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF18537C)),
       ),
       builder: (context, child) {
-        return RashtOverlay(child: child ?? const SizedBox.shrink());
+        return RashtOverlay(
+          navigatorKey: _navigatorKey,
+          child: child ?? const SizedBox.shrink(),
+        );
       },
       home: Scaffold(
         appBar: AppBar(title: const Text('Rasht Example')),
@@ -47,13 +60,18 @@ class _RashtExampleAppState extends State<RashtExampleApp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Tap the umbrella button to open the API trace panel.',
+                  'Tap the umbrella button to open the full-screen inspector.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
                 FilledButton(
                   onPressed: _sendSampleRequest,
                   child: const Text('Send sample GET request'),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: _triggerTestError,
+                  child: const Text('Trigger test error'),
                 ),
               ],
             ),
