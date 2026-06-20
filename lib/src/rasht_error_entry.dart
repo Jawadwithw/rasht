@@ -1,6 +1,6 @@
 /// Kind of captured runtime error.
 enum RashtErrorKind {
-  /// Flutter framework error ([FlutterError.onError]).
+  /// Flutter framework error (`FlutterError.onError`).
   flutter,
 
   /// Uncaught async error ([PlatformDispatcher.onError]).

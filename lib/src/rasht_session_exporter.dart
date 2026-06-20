@@ -43,18 +43,22 @@ class RashtSessionExporter {
 
     if (format == RashtReportFormat.html) {
       final file = await _writeTempFile(report, 'rasht-session-report.html');
-      await Share.shareXFiles(
-        [XFile(file.path, mimeType: 'text/html')],
-        subject: 'Rasht session report',
-        sharePositionOrigin: sharePositionOrigin,
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(file.path, mimeType: 'text/html')],
+          subject: 'Rasht session report',
+          sharePositionOrigin: sharePositionOrigin,
+        ),
       );
       return;
     }
 
-    await Share.share(
-      report,
-      subject: 'Rasht session report',
-      sharePositionOrigin: sharePositionOrigin,
+    await SharePlus.instance.share(
+      ShareParams(
+        text: report,
+        subject: 'Rasht session report',
+        sharePositionOrigin: sharePositionOrigin,
+      ),
     );
   }
 

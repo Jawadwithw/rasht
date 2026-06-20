@@ -2,7 +2,7 @@ name: rasht
 description: >-
   Rain City API tracing for Flutter — Dio request inspector, error capture,
   and redacted session export for QA teams.
-version: 0.4.0
+version: 0.4.2
 homepage: https://github.com/Jawadwithw/rasht
 repository: https://github.com/Jawadwithw/rasht
 issue_tracker: https://github.com/Jawadwithw/rasht/issues
@@ -21,12 +21,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^5.0.0
+  dio: ^5.8.0
   font_awesome_flutter: ^11.0.0
-  device_info_plus: ^11.5.0
-  package_info_plus: ^8.3.1
+  device_info_plus: ^12.3.0
+  package_info_plus: ^9.0.0
   path_provider: ^2.1.5
-  share_plus: ^10.1.4
+  share_plus: ^12.0.0
 
 dev_dependencies:
   flutter_test:

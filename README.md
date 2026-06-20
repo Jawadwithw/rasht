@@ -21,7 +21,7 @@ Add the dependency:
 
 ```yaml
 dependencies:
-  rasht: ^0.4.0
+  rasht: ^0.4.2
 ```
 
 Wire Dio, overlay, and error capture:
